@@ -13,7 +13,7 @@ NUTRITIONIX_API_KEY = os.environ["NUTRITIONIX_API_KEY"]
 exercise_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
 sheet_endpoint = os.environ["SHEETY_ENDPOINT"]
 
-exercises = input("Tell me which exercises you did: ")
+exercises_input = input("Tell me which exercises you did: ")
 
 headers = {
     "x-app-id": NUTRITIONIX_APP_ID,
@@ -21,7 +21,7 @@ headers = {
 }
 
 parameters = {
-    "query": exercises,
+    "query": exercises_input,
     "gender": GENDER,
     "weight_kg": WEIGHT_KG,
     "height_cm": HEIGHT_CM,
@@ -52,4 +52,5 @@ for exercise in result["exercises"]:
     }
 
     sheet_response = requests.post(sheet_endpoint, json=sheet_inputs, headers=bearer_headers)
+    print(sheet_response.text)
 
