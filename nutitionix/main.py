@@ -1,50 +1,4 @@
-# import requests
-# import datetime as dt
-# APP_ID = "253e08e5"
-# API_KEY = "d4a84b802db07445006c96f06b3fd679"
-# MY_EMAIL = "projects.with.pycharm@gmail.com"
-# exercise_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
-# SHEETY_USERNAME = "50c19efe6fd03071a2c8f395e166d0b4"
-#
-# sheety_endpoint = "https://api.sheety.co/50c19efe6fd03071a2c8f395e166d0b4/untitledSpreadsheet/sheet1"
-#
-# exercises = input("Tell me which exercises you did: ")
-# params = {
-#     "query": exercises,
-#     "gender": "male",
-#     "weight_kg": 70,
-#     "height_cm": 170,
-#     "age": 25
-#     }
-# headers = {
-#     "x-app-id": APP_ID,
-#     "x-app-key": API_KEY,
-#     "x-remote-user-id": "0"
-#     }
-#
-# response = requests.post(exercise_endpoint, json=params, headers=headers)
-# results = response.json()["exercises"]
-#
-# time_now = dt.datetime.now()
-# today = time_now.strftime("%d/%m/%Y")
-#
-# for exercise in results["exercises"]:
-#
-#         "sheet1": {
-#             "date": today,
-#             "time": exercise["duration_min"],
-#             "exercise": exercise["name"].title(),
-#             "calories": exercise["nf_calories"]
-#         "date": today,
-#         "time": exercise["duration_min"],
-#         "exercise": exercise["name"].title(),
-#         "calories": exercise["nf_calories"]
-#     }
-#         }
-#     sheet_response = requests.post(sheety_endpoint, json=body)
-#     print(sheet_response.text)
-
-
+import os
 import requests
 from datetime import datetime
 
@@ -53,21 +7,21 @@ WEIGHT_KG = 75
 HEIGHT_CM = 178
 AGE = 25
 
-APP_ID = "253e08e5"
-API_KEY = "d4a84b802db07445006c96f06b3fd679"
+NUTRITIONIX_APP_ID = os.environ["NUTRITIONIX_APP_ID"]
+NUTRITIONIX_API_KEY = os.environ["NUTRITIONIX_API_KEY"]
 
 exercise_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
-sheet_endpoint = "https://api.sheety.co/50c19efe6fd03071a2c8f395e166d0b4/untitledSpreadsheet/sheet1"
+sheet_endpoint = os.environ["SHEETY_ENDPOINT"]
 
-exercise_text = input("Tell me which exercises you did: ")
+exercises = input("Tell me which exercises you did: ")
 
 headers = {
-    "x-app-id": APP_ID,
-    "x-app-key": API_KEY,
+    "x-app-id": NUTRITIONIX_APP_ID,
+    "x-app-key": NUTRITIONIX_API_KEY,
 }
 
 parameters = {
-    "query": exercise_text,
+    "query": exercises,
     "gender": GENDER,
     "weight_kg": WEIGHT_KG,
     "height_cm": HEIGHT_CM,
@@ -82,6 +36,10 @@ result = response.json()
 today_date = datetime.now().strftime("%d/%m/%Y")
 now_time = datetime.now().strftime("%X")
 
+bearer_headers = {
+        "Authorization": f"Bearer {os.environ['YOUR_TOKEN']}"
+    }
+
 for exercise in result["exercises"]:
     sheet_inputs = {
         "sheet1": {
@@ -93,8 +51,5 @@ for exercise in result["exercises"]:
         }
     }
 
-    sheet_response = requests.post(sheet_endpoint, json=sheet_inputs)
+    sheet_response = requests.post(sheet_endpoint, json=sheet_inputs, headers=bearer_headers)
 
-    print(sheet_response.text)
-
-    print(sheet_response.status_code)
