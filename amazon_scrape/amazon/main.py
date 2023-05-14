@@ -5,7 +5,6 @@ import lxml
 import smtplib
 
 
-
 pp = PrettyPrinter()
 
 
@@ -36,4 +35,4 @@ if price < target_price:
             msg=f"Subject:Amazon Price Alert!\n\n"{title} is now {price}"\n{url}".encode("utf-8")
         )
 
-        
+
