@@ -64,8 +64,9 @@ def fill_google_doc():
 
 
 scrape_rentals()
-print(list_of_links)
-print(list_of_addresses)
-print(list_of_prices)
+# print(list_of_links)
+# print(list_of_addresses)
+# print(list_of_prices)
+fill_google_doc()
 # StyledPropertyCardDataWrapper-c11n-8-85-1__sc-1omp4c3-0 jVBMsP property-card-data
 # StyledPropertyCardDataWrapper-c11n-8-85-1__sc-1omp4c3-0 jVBMsP property-card-data
